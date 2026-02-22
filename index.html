@@ -4,107 +4,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sabor Auténtico - Restaurante Gourmet en Rosario</title>
+    <title>Sabor Auténtico — Restaurante Gourmet · Rosario</title>
     <meta name="description"
-        content="Descubrí la mejor experiencia gastronómica en el corazón de Rosario. Cocina de autor con ingredientes locales.">
+        content="Cocina de autor en el corazón de Rosario. Ingredientes locales, técnicas europeas, experiencia gastronómica única desde 2010.">
+    <meta name="theme-color" content="#1A0E08">
 
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sabor Auténtico — Restaurante Gourmet · Rosario">
+    <meta property="og:description" content="Cocina de autor en el corazón de Rosario.">
+    <meta property="og:type" content="restaurant">
+    <meta property="og:locale" content="es_AR">
+
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap"
-        rel="stylesheet">
+    <!-- Non-render-blocking font load (saves ~240ms FCP/LCP) -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap">
+    </noscript>
+
+    <!-- Preload LCP image -->
+    <link rel="preload" as="image"
+        href="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1280&q=70&fm=webp&fit=crop"
+        fetchpriority="high"
+        imagesrcset="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=640&q=65&fm=webp&fit=crop 640w, https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1280&q=70&fm=webp&fit=crop 1280w, https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=65&fm=webp&fit=crop 1600w"
+        imagesizes="100vw">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Sabor Auténtico",
+    "description": "Cocina de autor en el corazón de Rosario",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Pellegrini 1250",
+      "addressLocality": "Rosario",
+      "addressRegion": "Santa Fe",
+      "addressCountry": "AR"
+    },
+    "telephone": "+543411234567",
+    "openingHours": ["Tu-Su 12:00-15:00", "Tu-Su 20:00-00:00"],
+    "priceRange": "$$",
+    "servesCuisine": "Cocina de Autor"
+  }
+  </script>
 
     <style>
-        * {
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         :root {
-            --primary: #D4A574;
-            --secondary: #2C1810;
-            --accent: #E8B298;
-            --light: #FFF8F3;
-            --white: #FFFFFF;
-            --gray: #6B5B50;
+            --ink: #0D0805;
+            --espresso: #1A0E08;
+            --mahogany: #3B1E12;
+            --amber: #C9905A;
+            --gold: #D4A96A;
+            --cream: #F7F0E6;
+            --ivory: #FBF7F2;
+            --fog: #EDE5D8;
+            --mist: rgba(255, 255, 255, 0.06);
+            --ff-display: 'Cormorant Garamond', Georgia, serif;
+            --ff-body: 'Jost', system-ui, sans-serif;
+            --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        /* Ensure text visible before webfonts */
+        @font-face {
+            font-display: swap;
         }
 
         body {
-            font-family: 'Lato', sans-serif;
+            font-family: var(--ff-body);
+            background: var(--ivory);
+            color: var(--ink);
+            overflow-x: hidden;
             line-height: 1.7;
-            color: var(--secondary);
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Navigation */
-        .navbar {
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+
+        .cursor {
+            width: 8px;
+            height: 8px;
+            background: var(--amber);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: opacity 0.3s;
+            mix-blend-mode: multiply;
+            will-change: transform;
+        }
+
+        .cursor-ring {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--amber);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: width 0.3s, height 0.3s, opacity 0.3s;
+            opacity: 0.5;
+            will-change: transform;
+        }
+
+        .cursor.active {
+            transform: scale(3);
+        }
+
+        .cursor-ring.active {
+            width: 60px;
+            height: 60px;
+            opacity: 0.2;
+        }
+
+
+        .nav {
             position: fixed;
             top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
+            left: 0;
+            right: 0;
             z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 1.5rem 3rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            transition: background 0.5s var(--ease-out), padding 0.4s var(--ease-out), box-shadow 0.4s;
         }
 
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
+        .nav.scrolled {
+            background: rgba(251, 247, 242, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 1rem 3rem;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-logo {
+            font-family: var(--ff-display);
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--cream);
             text-decoration: none;
-            letter-spacing: 1px;
+            letter-spacing: 0.05em;
+            transition: color 0.4s;
+        }
+
+        .nav.scrolled .nav-logo {
+            color: var(--espresso);
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .nav-links a {
-            color: var(--secondary);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
             text-decoration: none;
-            font-weight: 500;
+            color: rgba(247, 240, 230, 0.8);
+            font-weight: 400;
             transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(44, 24, 16, 0.5), rgba(44, 24, 16, 0.5)),
-                url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80') center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white);
             position: relative;
         }
 
-        .hero-content {
-            max-width: 800px;
-            padding: 2rem;
-            animation: fadeInUp 1s ease;
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--amber);
+            transition: width 0.3s var(--ease-expo);
         }
 
-        @keyframes fadeInUp {
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--cream);
+        }
+
+        .nav.scrolled .nav-links a {
+            color: var(--mahogany);
+        }
+
+        .nav.scrolled .nav-links a:hover {
+            color: var(--amber);
+        }
+
+        .nav-reserve {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--espresso);
+            background: var(--gold);
+            padding: 0.7rem 1.6rem;
+            border-radius: 2px;
+            font-weight: 500;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .nav-reserve:hover {
+            background: var(--amber);
+            transform: translateY(-1px);
+        }
+
+        /* Hamburger */
+        .nav-burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .nav-burger span {
+            display: block;
+            width: 26px;
+            height: 1.5px;
+            background: var(--cream);
+            transition: all 0.3s;
+        }
+
+        .nav.scrolled .nav-burger span {
+            background: var(--espresso);
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--espresso);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem;
+        }
+
+        .mobile-menu.open {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            font-family: var(--ff-display);
+            font-size: 3rem;
+            color: var(--cream);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--gold);
+        }
+
+        .mobile-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            color: var(--fog);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+
+        .hero {
+            position: relative;
+            height: 100svh;
+            min-height: 600px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to top, rgba(13, 8, 5, 0.85) 0%, rgba(13, 8, 5, 0.2) 60%, transparent 100%),
+                linear-gradient(to right, rgba(13, 8, 5, 0.4) 0%, transparent 60%);
+            z-index: 1;
+        }
+
+        .hero-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transform: scale(1.05);
+            animation: heroZoom 10s var(--ease-out) forwards;
+            backface-visibility: hidden;
+        }
+
+        @keyframes heroZoom {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 4rem 6rem;
+            max-width: 900px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            border: 1px solid rgba(212, 169, 106, 0.4);
+            padding: 0.4rem 1rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.3s var(--ease-expo) forwards;
+        }
+
+        .hero h1 {
+            font-family: var(--ff-display);
+            font-size: clamp(3.5rem, 8vw, 7.5rem);
+            font-weight: 300;
+            line-height: 1.05;
+            color: var(--cream);
+            letter-spacing: -0.01em;
+            opacity: 0;
+            animation: fadeUp 0.9s 0.5s var(--ease-expo) forwards;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hero-sub {
+            font-size: 1rem;
+            color: rgba(247, 240, 230, 0.7);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            margin-top: 1.5rem;
+            max-width: 480px;
+            opacity: 0;
+            animation: fadeUp 0.9s 0.7s var(--ease-expo) forwards;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.9s 0.9s var(--ease-expo) forwards;
+        }
+
+        @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(24px);
             }
 
             to {
@@ -113,277 +408,549 @@
             }
         }
 
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: var(--primary);
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 50px;
-            transition: all 0.3s;
-            margin: 0 0.5rem;
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.9rem;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 1rem 2rem;
+            background: var(--gold);
+            color: var(--espresso);
+            border-radius: 2px;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
         }
 
-        .btn:hover {
-            background: var(--accent);
+        .btn-primary:hover {
+            background: var(--amber);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(212, 165, 116, 0.4);
+            box-shadow: 0 12px 30px rgba(201, 144, 90, 0.35);
         }
 
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--white);
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            font-weight: 400;
+            padding: 1rem 2rem;
+            border: 1px solid rgba(247, 240, 230, 0.4);
+            color: var(--cream);
+            border-radius: 2px;
+            transition: border-color 0.3s, background 0.3s;
         }
 
-        .btn-secondary:hover {
-            background: var(--white);
-            color: var(--secondary);
+        .btn-outline:hover {
+            border-color: var(--gold);
+            background: rgba(212, 169, 106, 0.1);
         }
 
-        /* Section Styles */
-        section {
-            padding: 6rem 2rem;
+        /* Scroll indicator */
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            right: 4rem;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: rgba(247, 240, 230, 0.5);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeUp 1s 1.2s var(--ease-expo) forwards;
+        }
+
+        .scroll-line {
+            width: 40px;
+            height: 1px;
+            background: rgba(247, 240, 230, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gold);
+            transform: translateX(-100%);
+            animation: scrollLine 2s 1.5s var(--ease-out) infinite;
+        }
+
+        @keyframes scrollLine {
+            0% {
+                left: -100%;
+            }
+
+            50% {
+                left: 0;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+
+        .section {
+            padding: 7rem 4rem;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-tag {
-            color: var(--primary);
-            font-size: 0.9rem;
+        .label {
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 600;
+            color: var(--amber);
+            font-weight: 500;
             margin-bottom: 1rem;
+            display: block;
         }
 
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            color: var(--secondary);
-            margin-bottom: 1rem;
+        .h2 {
+            font-family: var(--ff-display);
+            font-size: clamp(2.4rem, 4vw, 4rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--espresso);
+            letter-spacing: -0.01em;
         }
 
-        .section-description {
-            font-size: 1.1rem;
-            color: var(--gray);
-            max-width: 700px;
-            margin: 0 auto;
+        .h2 em {
+            font-style: italic;
+            color: var(--amber);
         }
 
-        /* About Section */
-        .about {
-            background: var(--light);
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.9s var(--ease-expo), transform 0.9s var(--ease-expo);
         }
 
-        .about-grid {
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .reveal-delay-4 {
+            transition-delay: 0.4s;
+        }
+
+
+        .philosophy {
+            background: var(--espresso);
+            color: var(--cream);
+        }
+
+        .philosophy-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 6rem;
             align-items: center;
         }
 
-        .about-image {
-            height: 500px;
-            background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80') center/cover;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        .philosophy .h2 {
+            color: var(--cream);
         }
 
-        .about-content h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--secondary);
+        .philosophy .h2 em {
+            color: var(--gold);
         }
 
-        .about-content p {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
+        .philosophy-body {
+            margin-top: 2rem;
+            color: rgba(247, 240, 230, 0.65);
+            font-weight: 300;
+            font-size: 1.05rem;
+            line-height: 1.9;
         }
 
-        /* Menu Section */
-        .menu {
-            background: var(--white);
+        .philosophy-body p+p {
+            margin-top: 1.2rem;
+        }
+
+        .philosophy-image-wrap {
+            position: relative;
+        }
+
+        .philosophy-img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .philosophy-badge {
+            position: absolute;
+            bottom: -2rem;
+            right: -2rem;
+            width: 140px;
+            height: 140px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--espresso);
+            text-align: center;
+        }
+
+        .philosophy-badge strong {
+            font-family: var(--ff-display);
+            font-size: 2.8rem;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .philosophy-badge span {
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .philosophy-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(247, 240, 230, 0.1);
+        }
+
+        .stat-num {
+            font-family: var(--ff-display);
+            font-size: 2.8rem;
+            font-weight: 300;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(247, 240, 230, 0.45);
+            margin-top: 0.4rem;
+        }
+
+
+        .menu-section {
+            background: var(--ivory);
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 4rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .menu-desc {
+            max-width: 380px;
+            color: var(--mahogany);
+            opacity: 0.65;
+            font-weight: 300;
+            font-size: 0.95rem;
+        }
+
+        /* Tab filter */
+        .menu-tabs {
+            display: flex;
+            gap: 0;
+            border: 1px solid var(--fog);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .menu-tab {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.7rem 1.4rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--mahogany);
+            opacity: 0.5;
+            transition: all 0.3s;
+            font-family: var(--ff-body);
+        }
+
+        .menu-tab.active,
+        .menu-tab:hover {
+            background: var(--espresso);
+            color: var(--cream);
+            opacity: 1;
         }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2px;
         }
 
-        .menu-item {
-            background: var(--light);
-            border-radius: 20px;
+        .menu-card {
+            background: var(--ivory);
+            position: relative;
             overflow: hidden;
-            transition: transform 0.3s;
+            cursor: pointer;
+            transition: transform 0.5s var(--ease-expo);
         }
 
-        .menu-item:hover {
-            transform: translateY(-10px);
+        .menu-card:hover {
+            transform: translateY(-4px);
         }
 
-        .menu-image {
-            height: 250px;
-            background-size: cover;
-            background-position: center;
+        .menu-card:hover .menu-card-img {
+            transform: scale(1.06);
         }
 
-        .menu-item:nth-child(1) .menu-image {
-            background-image: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80');
+        .menu-card-img-wrap {
+            overflow: hidden;
+            aspect-ratio: 4/3;
         }
 
-        .menu-item:nth-child(2) .menu-image {
-            background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80');
+        .menu-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s var(--ease-expo);
         }
 
-        .menu-item:nth-child(3) .menu-image {
-            background-image: url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&q=80');
+        .menu-card-body {
+            padding: 1.6rem 1.8rem 2rem;
+            background: var(--cream);
         }
 
-        .menu-item:nth-child(4) .menu-image {
-            background-image: url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80');
+        .menu-card-cat {
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 0.5rem;
         }
 
-        .menu-item:nth-child(5) .menu-image {
-            background-image: url('https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=800&q=80');
-        }
-
-        .menu-item:nth-child(6) .menu-image {
-            background-image: url('https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&q=80');
-        }
-
-        .menu-content {
-            padding: 2rem;
-        }
-
-        .menu-content h3 {
-            font-family: 'Playfair Display', serif;
+        .menu-card-name {
+            font-family: var(--ff-display);
             font-size: 1.5rem;
-            margin-bottom: 0.75rem;
-            color: var(--secondary);
+            font-weight: 400;
+            color: var(--espresso);
+            line-height: 1.2;
+            margin-bottom: 0.6rem;
         }
 
-        .menu-content p {
-            color: var(--gray);
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
+        .menu-card-desc {
+            font-size: 0.85rem;
+            color: var(--mahogany);
+            opacity: 0.6;
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
         }
 
-        .price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
+        .menu-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        /* Gallery Section */
-        .gallery {
-            background: var(--secondary);
-            color: var(--white);
+        .menu-card-price {
+            font-family: var(--ff-display);
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--espresso);
         }
 
-        .gallery .section-title {
-            color: var(--white);
+
+
+        .strip {
+            background: var(--gold);
+            overflow: hidden;
+            padding: 1.5rem 0;
         }
 
-        .gallery-grid {
+        .strip-track {
+            display: flex;
+            gap: 4rem;
+            white-space: nowrap;
+            animation: marquee 18s linear infinite;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .strip-item {
+            font-family: var(--ff-display);
+            font-size: 1.3rem;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--espresso);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-shrink: 0;
+        }
+
+        .strip-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--espresso);
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+
+
+        .gallery-section {
+            background: var(--espresso);
+            padding: 7rem 0;
+        }
+
+        .gallery-header {
+            padding: 0 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-header .h2 {
+            color: var(--cream);
+        }
+
+        .gallery-header .h2 em {
+            color: var(--gold);
+        }
+
+        .gallery-masonry {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: auto;
+            gap: 3px;
         }
 
         .gallery-item {
-            height: 300px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 15px;
-            transition: transform 0.3s;
+            overflow: hidden;
             cursor: pointer;
         }
 
-        .gallery-item:hover {
-            transform: scale(1.05);
-        }
-
         .gallery-item:nth-child(1) {
-            background-image: url('https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=800&q=80');
+            grid-column: 1 / 7;
+            grid-row: 1 / 3;
         }
 
         .gallery-item:nth-child(2) {
-            background-image: url('https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&q=80');
+            grid-column: 7 / 10;
+            grid-row: 1;
         }
 
         .gallery-item:nth-child(3) {
-            background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80');
+            grid-column: 10 / 13;
+            grid-row: 1;
         }
 
         .gallery-item:nth-child(4) {
-            background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80');
+            grid-column: 7 / 10;
+            grid-row: 2;
         }
 
         .gallery-item:nth-child(5) {
-            background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80');
+            grid-column: 10 / 13;
+            grid-row: 2;
         }
 
-        .gallery-item:nth-child(6) {
-            background-image: url('https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80');
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 260px;
+            transition: transform 0.7s var(--ease-expo), filter 0.5s;
+            filter: saturate(0.9);
         }
 
-        /* Testimonials */
-        .testimonials {
-            background: var(--light);
+        .gallery-item:hover img {
+            transform: scale(1.06);
+            filter: saturate(1.1);
         }
 
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+        .testimonials-section {
+            background: var(--fog);
+            overflow: hidden;
+        }
+
+        .testimonials-track {
+            display: flex;
             gap: 2rem;
-            margin-top: 3rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 1rem;
+            scrollbar-width: none;
         }
 
-        .testimonial-card {
-            background: var(--white);
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        .testimonials-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .testimonial {
+            flex: 0 0 420px;
+            scroll-snap-align: start;
+            background: var(--ivory);
+            padding: 3rem;
+            border-radius: 4px;
+        }
+
+        .testimonial-stars {
+            color: var(--gold);
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 1.5rem;
         }
 
         .testimonial-text {
+            font-family: var(--ff-display);
+            font-size: 1.3rem;
+            font-weight: 300;
             font-style: italic;
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-            line-height: 1.8;
+            color: var(--espresso);
+            line-height: 1.6;
+            margin-bottom: 2rem;
         }
 
         .testimonial-author {
@@ -392,530 +959,1235 @@
             gap: 1rem;
         }
 
-        .author-avatar {
-            width: 60px;
-            height: 60px;
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background: var(--primary);
+            background: var(--amber);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--ff-display);
+            font-size: 1.2rem;
+            color: var(--cream);
+            flex-shrink: 0;
         }
 
-        .author-info h4 {
-            font-weight: 600;
-            color: var(--secondary);
-        }
-
-        .author-info p {
-            color: var(--gray);
+        .testimonial-name {
+            font-weight: 500;
             font-size: 0.9rem;
+            color: var(--espresso);
         }
 
-        /* Contact Section */
-        .contact {
-            background: var(--white);
+        .testimonial-role {
+            font-size: 0.75rem;
+            color: var(--mahogany);
+            opacity: 0.5;
+        }
+
+        /* Nav dots */
+        .t-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .t-dot {
+            width: 24px;
+            height: 3px;
+            background: var(--mahogany);
+            opacity: 0.2;
+            border-radius: 2px;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.3s, width 0.3s;
+        }
+
+        .t-dot.active {
+            opacity: 1;
+            background: var(--amber);
+            width: 40px;
+        }
+
+
+        .contact-section {
+            background: var(--ivory);
         }
 
         .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-top: 3rem;
+            gap: 6rem;
+            align-items: start;
         }
 
-        .contact-form {
-            background: var(--light);
-            padding: 3rem;
-            border-radius: 20px;
+        .contact-form-wrap {
+            background: var(--espresso);
+            padding: 4rem;
+            border-radius: 4px;
         }
 
-        .form-group {
-            margin-bottom: 1.5rem;
+        .contact-form-wrap .h2 {
+            color: var(--cream);
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--secondary);
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #E0D5C9;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 150px;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-        }
-
-        .info-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .info-content h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: var(--secondary);
-        }
-
-        .info-content p {
-            color: var(--gray);
-        }
-
-        .map {
-            width: 100%;
-            height: 300px;
-            background: var(--light);
-            border-radius: 15px;
+        .contact-form-wrap .label {
             margin-top: 2rem;
         }
 
-        /* Footer */
-        .footer {
-            background: var(--secondary);
-            color: var(--white);
-            padding: 3rem 2rem 1.5rem;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto 2rem;
-        }
-
-        .footer-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 1rem;
-            margin: 2rem 0;
         }
 
-        .social-links a {
-            width: 45px;
-            height: 45px;
-            background: rgba(212, 165, 116, 0.2);
+        .form-field {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(247, 240, 230, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(247, 240, 230, 0.12);
+            border-radius: 2px;
+            color: var(--cream);
+            font-family: var(--ff-body);
+            font-size: 0.9rem;
+            transition: border-color 0.3s, background 0.3s;
+            outline: none;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: rgba(247, 240, 230, 0.25);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: var(--amber);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gold);
+            border: none;
+            border-radius: 2px;
+            font-family: var(--ff-body);
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--espresso);
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .form-submit:hover {
+            background: var(--amber);
+            transform: translateY(-1px);
+        }
+
+        .contact-info {
+            padding-top: 1rem;
+        }
+
+        .contact-info .h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info-body {
+            font-size: 1rem;
+            color: var(--mahogany);
+            opacity: 0.7;
+            font-weight: 300;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+
+        .info-blocks {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .info-block {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .info-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--fog);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .info-block-title {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 0.3rem;
+        }
+
+        .info-block-text {
+            font-size: 0.95rem;
+            color: var(--espresso);
+            line-height: 1.6;
+        }
+
+        /* Mapa embebido */
+        .map-embed {
+            margin-top: 2.5rem;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--fog);
+        }
+
+        .map-embed iframe {
+            display: block;
+            width: 100%;
+            height: 260px;
+            border: none;
+            filter: grayscale(0.3) sepia(0.15);
+        }
+
+
+        footer {
+            background: var(--ink);
+            color: rgba(247, 240, 230, 0.5);
+            padding: 4rem;
+        }
+
+        .footer-grid {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 4rem;
+            border-bottom: 1px solid rgba(247, 240, 230, 0.08);
+        }
+
+        .footer-logo {
+            font-family: var(--ff-display);
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--cream);
             text-decoration: none;
-            font-size: 1.2rem;
-            transition: all 0.3s;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 1rem;
         }
 
-        .social-links a:hover {
-            background: var(--primary);
-            color: var(--white);
-            transform: translateY(-3px);
+        .footer-tagline {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            max-width: 260px;
         }
 
-        .copyright {
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(212, 165, 116, 0.2);
-            color: rgba(255, 255, 255, 0.6);
+        .footer-col h3,
+        .footer-col-title {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--cream);
+            margin-bottom: 1.5rem;
         }
 
-        /* WhatsApp Float */
-        .whatsapp-float {
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer-col a {
+            font-size: 0.85rem;
+            color: rgba(247, 240, 230, 0.45);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 2rem auto 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .social-row {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(247, 240, 230, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(247, 240, 230, 0.4);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        .social-link:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+
+        .wa-btn {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 60px;
-            height: 60px;
+            width: 56px;
+            height: 56px;
             background: #25D366;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 2rem;
-            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
-            z-index: 999;
+            font-size: 1.6rem;
             text-decoration: none;
-            animation: pulse 2s infinite;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 990;
+            transition: transform 0.3s var(--ease-expo), box-shadow 0.3s;
         }
 
-        @keyframes pulse {
+        .wa-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
+        }
 
-            0%,
+        .wa-btn::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 2px solid rgba(37, 211, 102, 0.3);
+            animation: waPulse 2s ease-out infinite;
+        }
+
+        @keyframes waPulse {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
             100% {
-                box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
-            }
-
-            50% {
-                box-shadow: 0 5px 30px rgba(37, 211, 102, 0.6);
+                opacity: 0;
+                transform: scale(1.6);
             }
         }
 
-        /* Responsive */
-        @media (max-width: 968px) {
-            .nav-links {
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 8, 5, 0.95);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 2px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            color: var(--cream);
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .lightbox-close:hover {
+            opacity: 1;
+        }
+
+
+        .toast {
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            background: var(--espresso);
+            color: var(--cream);
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border-left: 3px solid var(--gold);
+            z-index: 1001;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.4s var(--ease-expo);
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        @media (max-width: 1024px) {
+
+            .philosophy-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .philosophy-image-wrap {
+                order: -1;
+            }
+
+            .philosophy-badge {
+                right: 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+            }
+
+            .gallery-item:nth-child(1) {
+                grid-column: 1 / 8;
+            }
+
+            .gallery-item:nth-child(2) {
+                grid-column: 8 / 13;
+                grid-row: 1;
+            }
+
+            .gallery-item:nth-child(3) {
+                grid-column: 1 / 6;
+                grid-row: 2;
+            }
+
+            .gallery-item:nth-child(4) {
+                grid-column: 6 / 10;
+                grid-row: 2;
+            }
+
+            .gallery-item:nth-child(5) {
+                grid-column: 10 / 13;
+                grid-row: 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 5rem 1.5rem;
+            }
+
+            .nav {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .nav.scrolled {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links,
+            .nav-reserve {
                 display: none;
             }
 
-            .about-grid,
+            .nav-burger {
+                display: flex;
+            }
+
+            .hero-content {
+                padding: 0 1.5rem 4rem;
+            }
+
+            .scroll-hint {
+                display: none;
+            }
+
+            .philosophy-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-masonry {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .gallery-item {
+                grid-column: auto !important;
+                grid-row: auto !important;
+            }
+
+            .gallery-item img {
+                min-height: 200px;
+            }
+
+            .testimonial {
+                flex: 0 0 85vw;
+            }
+
             .contact-grid {
                 grid-template-columns: 1fr;
+                gap: 3rem;
             }
 
-            .menu-grid,
-            .gallery-grid {
+            .contact-form-wrap {
+                padding: 2.5rem 2rem;
+            }
+
+            .form-row {
                 grid-template-columns: 1fr;
             }
 
-            .hero h1 {
-                font-size: 2.5rem;
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .gallery-header {
+                padding: 0 1.5rem;
+            }
+        }
+
+
+        :focus-visible {
+            outline: 2px solid var(--amber);
+            outline-offset: 3px;
+        }
+
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            background: var(--espresso);
+            color: var(--cream);
+            padding: 0.5rem 1rem;
+            border-radius: 2px;
+            font-size: 0.85rem;
+            z-index: 9999;
+            transition: top 0.2s;
+        }
+
+        .skip-link:focus {
+            top: 1rem;
+        }
+
+
+        @media print {
+
+            .nav,
+            .wa-btn,
+            .cursor,
+            .cursor-ring {
+                display: none;
+            }
+
+            .hero {
+                height: auto;
+                padding: 4rem 2rem;
+            }
+
+            .hero-bg,
+            .hero-img {
+                position: relative;
             }
         }
     </style>
 </head>
 
 <body>
+    <!-- Skip Navigation (accessibility) -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+    <!-- Custom Cursor (desktop only) -->
+    <div class="cursor" id="cursor" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">Sabor Auténtico</a>
+    <header>
+        <nav class="nav" id="nav" role="navigation" aria-label="Navegación principal">
+            <a href="#inicio" class="nav-logo" aria-label="Sabor Auténtico - Inicio">Sabor Auténtico</a>
             <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
                 <li><a href="#menu">Menú</a></li>
                 <li><a href="#galeria">Galería</a></li>
                 <li><a href="#contacto">Contacto</a></li>
             </ul>
-        </div>
+            <a href="#contacto" class="nav-reserve" aria-label="Reservar mesa">Reservar Mesa</a>
+            <button class="nav-burger" id="navBurger" aria-expanded="false" aria-controls="mobileMenu"
+                aria-label="Abrir menú">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Menú móvil" aria-hidden="true">
+        <button class="mobile-close" id="mobileClose" aria-label="Cerrar menú">✕</button>
+        <a href="#nosotros" class="mobile-link">Nosotros</a>
+        <a href="#menu" class="mobile-link">Menú</a>
+        <a href="#galeria" class="mobile-link">Galería</a>
+        <a href="#contacto" class="mobile-link">Contacto</a>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <h1>Sabor Auténtico en Cada Bocado</h1>
-            <p>Descubrí la mejor experiencia gastronómica en el corazón de Rosario</p>
-            <div>
-                <a href="#menu" class="btn">Ver Menú</a>
-                <a href="#contacto" class="btn btn-secondary">Reservar Mesa</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-image"></div>
-                <div class="about-content">
-                    <p class="section-tag">Nuestra Historia</p>
-                    <h3>Una Pasión por la Cocina de Autor</h3>
-                    <p>
-                        Desde 2010, Sabor Auténtico ha sido el destino culinario preferido de Rosario.
-                        Nuestro chef ejecutivo, formado en las mejores escuelas de gastronomía europea,
-                        combina técnicas clásicas con ingredientes locales de primera calidad.
-                    </p>
-                    <p>
-                        Cada plato es una obra de arte, elaborada con dedicación y amor por la cocina.
-                        Creemos que comer es una experiencia sensorial completa, y trabajamos cada día
-                        para superar tus expectativas.
-                    </p>
-                    <a href="#contacto" class="btn">Conocer Más</a>
+    <main id="main-content">
+        <!-- ======== HERO ======== -->
+        <section class="hero" id="inicio" aria-label="Bienvenida">
+            <div class="hero-bg" aria-hidden="true"></div>
+            <img class="hero-img"
+                src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1280&q=70&fm=webp&fit=crop" srcset="
+          https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=640&q=65&fm=webp&fit=crop 640w,
+          https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1024&q=65&fm=webp&fit=crop 1024w,
+          https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1280&q=70&fm=webp&fit=crop 1280w,
+          https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=65&fm=webp&fit=crop 1600w"
+                sizes="100vw" alt="Interior del restaurante Sabor Auténtico, con iluminación cálida y ambiente elegante"
+                width="1280" height="853" fetchpriority="high" decoding="async">
+            <div class="hero-content">
+                <div class="hero-tag">Rosario, Argentina — Desde 2010</div>
+                <h1>Una cocina que<br>habla <em>de verdad</em></h1>
+                <p class="hero-sub">Ingredientes locales, técnica de autor y una experiencia gastronómica que no
+                    olvidarás.</p>
+                <div class="hero-actions">
+                    <a href="#menu" class="btn-primary">
+                        Ver el Menú
+                        <span aria-hidden="true">→</span>
+                    </a>
+                    <a href="#contacto" class="btn-outline">Reservar Mesa</a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Menu Section -->
-    <section class="menu" id="menu">
-        <div class="container">
-            <div class="section-header">
-                <p class="section-tag">Nuestro Menú</p>
-                <h2 class="section-title">Platos Destacados</h2>
-                <p class="section-description">
-                    Una selección de nuestras creaciones más populares,
-                    elaboradas con ingredientes frescos y de temporada
-                </p>
+            <div class="scroll-hint" aria-hidden="true">
+                <div class="scroll-line"></div>
+                <span>Descubrí más</span>
             </div>
+        </section>
 
-            <div class="menu-grid">
-                <div class="menu-item">
-                    <div class="menu-image"></div>
-                    <div class="menu-content">
-                        <h3>Pizza Margherita Artesanal</h3>
-                        <p>Masa madre fermentada 48hs, mozzarella di bufala, tomate San Marzano, albahaca fresca</p>
-                        <span class="price">$8.500</span>
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-image"></div>
-                    <div class="menu-content">
-                        <h3>Ensalada César Premium</h3>
-                        <p>Lechuga romana, pollo grillado, parmesano, crutones caseros, aderezo César</p>
-                        <span class="price">$7.200</span>
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-image"></div>
-                    <div class="menu-content">
-                        <h3>Risotto de Hongos</h3>
-                        <p>Arroz carnaroli, mix de hongos silvestres, parmesano reggiano, trufa negra</p>
-                        <span class="price">$9.800</span>
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-image"></div>
-                    <div class="menu-content">
-                        <h3>Sopa del Día</h3>
-                        <p>Preparación diaria con ingredientes de estación, pan casero, hierbas frescas</p>
-                        <span class="price">$4.500</span>
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-image"></div>
-                    <div class="menu-content">
-                        <h3>Pancakes con Frutos Rojos</h3>
-                        <p>Stack de 3 pancakes esponjosos, frutos rojos frescos, miel de maple, crema batida</p>
-                        <span class="price">$6.800</span>
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-image"></div>
-                    <div class="menu-content">
-                        <h3>Brownie con Helado</h3>
-                        <p>Brownie de chocolate belga, helado de vainilla artesanal, salsa de caramelo</p>
-                        <span class="price">$5.200</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="gallery" id="galeria">
-        <div class="container">
-            <div class="section-header">
-                <p class="section-tag" style="color: var(--primary);">Galería</p>
-                <h2 class="section-title">Momentos Inolvidables</h2>
-                <p class="section-description" style="color: rgba(255,255,255,0.8);">
-                    Un vistazo a nuestro ambiente acogedor y nuestras deliciosas creaciones
-                </p>
-            </div>
-
-            <div class="gallery-grid">
-                <div class="gallery-item"></div>
-                <div class="gallery-item"></div>
-                <div class="gallery-item"></div>
-                <div class="gallery-item"></div>
-                <div class="gallery-item"></div>
-                <div class="gallery-item"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials">
-        <div class="container">
-            <div class="section-header">
-                <p class="section-tag">Testimonios</p>
-                <h2 class="section-title">Lo Que Dicen Nuestros Clientes</h2>
-            </div>
-
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">
-                        "Sin duda el mejor restaurante de Rosario. La atención es impecable y
-                        cada plato es una experiencia única. El risotto de hongos es espectacular."
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar"></div>
-                        <div class="author-info">
-                            <h4>María González</h4>
-                            <p>Cliente frecuente</p>
+        <!-- ======== PHILOSOPHY / ABOUT ======== -->
+        <section class="philosophy section" id="nosotros" aria-labelledby="nosotros-title">
+            <div class="container">
+                <div class="philosophy-grid">
+                    <div>
+                        <span class="label reveal">Nuestra Filosofía</span>
+                        <h2 class="h2 reveal reveal-delay-1" id="nosotros-title">
+                            El sabor nace en<br>la <em>honestidad</em>
+                        </h2>
+                        <div class="philosophy-body reveal reveal-delay-2">
+                            <p>Desde 2010, nuestra cocina es un diálogo entre la tradición europea y el territorio
+                                argentino. Cada plato comienza en el mercado, con productores que conocemos por su
+                                nombre.</p>
+                            <p>Nuestro chef ejecutivo, formado en París y Barcelona, trae técnica y rigor. El campo
+                                santafesino aporta el alma. El resultado es cocina de autor con identidad propia.</p>
+                        </div>
+                        <div class="philosophy-stats">
+                            <div class="reveal reveal-delay-1">
+                                <div class="stat-num">15+</div>
+                                <div class="stat-label">Años de historia</div>
+                            </div>
+                            <div class="reveal reveal-delay-2">
+                                <div class="stat-num">40+</div>
+                                <div class="stat-label">Platos de autor</div>
+                            </div>
+                            <div class="reveal reveal-delay-3">
+                                <div class="stat-num">98%</div>
+                                <div class="stat-label">Satisfacción</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <p class="testimonial-text">
-                        "Celebramos nuestro aniversario aquí y fue perfecto. El ambiente es elegante
-                        pero acogedor, y la comida simplemente deliciosa. Totalmente recomendable."
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar"></div>
-                        <div class="author-info">
-                            <h4>Roberto Martínez</h4>
-                            <p>Ocasión especial</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <p class="testimonial-text">
-                        "La relación calidad-precio es excelente. Los ingredientes son frescos
-                        y se nota la dedicación en cada preparación. Volveremos seguro."
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar"></div>
-                        <div class="author-info">
-                            <h4>Laura Fernández</h4>
-                            <p>Primera visita</p>
+                    <div class="philosophy-image-wrap reveal">
+                        <img class="philosophy-img"
+                            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=60&fm=webp&fit=crop&crop=center"
+                            alt="Chef preparando un plato con ingredientes frescos" width="600" height="800"
+                            loading="lazy" decoding="async">
+                        <div class="philosophy-badge" aria-label="Desde 2010">
+                            <strong>15</strong>
+                            <span>Años</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contacto">
-        <div class="container">
-            <div class="section-header">
-                <p class="section-tag">Contacto</p>
-                <h2 class="section-title">Reservá Tu Mesa</h2>
-                <p class="section-description">
-                    Completá el formulario o comunicate directamente con nosotros
-                </p>
+        <!-- ======== STRIP ======== -->
+        <div class="strip" aria-hidden="true">
+            <div class="strip-track" id="stripTrack">
+                <!-- duplicated for seamless loop -->
+                <span class="strip-item">Cocina de Autor<span class="strip-dot"></span></span>
+                <span class="strip-item">Ingredientes Locales<span class="strip-dot"></span></span>
+                <span class="strip-item">Experiencia Única<span class="strip-dot"></span></span>
+                <span class="strip-item">Vinos Seleccionados<span class="strip-dot"></span></span>
+                <span class="strip-item">Reservas Disponibles<span class="strip-dot"></span></span>
+                <span class="strip-item">Cocina de Autor<span class="strip-dot"></span></span>
+                <span class="strip-item">Ingredientes Locales<span class="strip-dot"></span></span>
+                <span class="strip-item">Experiencia Única<span class="strip-dot"></span></span>
+                <span class="strip-item">Vinos Seleccionados<span class="strip-dot"></span></span>
+                <span class="strip-item">Reservas Disponibles<span class="strip-dot"></span></span>
             </div>
+        </div>
 
-            <div class="contact-grid">
-                <form class="contact-form">
-                    <div class="form-group">
-                        <label>Nombre Completo *</label>
-                        <input type="text" required placeholder="Juan Pérez">
+        <!-- ======== MENU ======== -->
+        <section class="menu-section section" id="menu" aria-labelledby="menu-title">
+            <div class="container">
+                <div class="menu-header">
+                    <div>
+                        <span class="label">Nuestro Menú</span>
+                        <h2 class="h2 reveal" id="menu-title">Platos que<br><em>cuentan una historia</em></h2>
                     </div>
+                    <p class="menu-desc reveal">Elaborados con ingredientes de estación, de productores locales de
+                        confianza.</p>
+                </div>
 
-                    <div class="form-group">
-                        <label>Email *</label>
-                        <input type="email" required placeholder="ejemplo@mail.com">
-                    </div>
+                <div class="menu-tabs" role="tablist" aria-label="Categorías del menú">
+                    <button class="menu-tab active" role="tab" aria-selected="true" aria-label="Todos los platos"
+                        data-cat="all">Todos</button>
+                    <button class="menu-tab" role="tab" aria-selected="false" aria-label="Platos principales"
+                        data-cat="principal">Principales</button>
+                    <button class="menu-tab" role="tab" aria-selected="false" aria-label="Platos de entrada"
+                        data-cat="entrada">Entradas</button>
+                    <button class="menu-tab" role="tab" aria-selected="false" aria-label="Platos de postre"
+                        data-cat="postre">Postres</button>
+                </div>
 
-                    <div class="form-group">
-                        <label>Teléfono *</label>
-                        <input type="tel" required placeholder="+54 341 123-4567">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Mensaje</label>
-                        <textarea placeholder="Fecha y hora preferida para la reserva..."></textarea>
-                    </div>
-
-                    <button type="submit" class="btn" style="width: 100%;">Enviar Reserva</button>
-                </form>
-
-                <div class="contact-info">
-                    <div class="info-item">
-                        <div class="info-icon">📍</div>
-                        <div class="info-content">
-                            <h3>Ubicación</h3>
-                            <p>Av. Pellegrini 1250<br>Rosario, Santa Fe</p>
-                        </div>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-icon">⏰</div>
-                        <div class="info-content">
-                            <h3>Horarios</h3>
-                            <p>Martes a Domingo<br>12:00 - 15:00 | 20:00 - 00:00</p>
-                        </div>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-icon">📞</div>
-                        <div class="info-content">
-                            <h3>Teléfono</h3>
-                            <p>+54 341 123-4567<br>reservas@saborautentico.com</p>
-                        </div>
-                    </div>
-
-                    <div class="map"></div>
+                <div class="menu-grid" id="menuGrid">
+                    <!-- Cards generated by JS for performance -->
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- ======== GALLERY ======== -->
+        <section class="gallery-section" id="galeria" aria-labelledby="galeria-title">
+            <div class="gallery-header">
+                <span class="label" style="color:rgba(247,240,230,0.5)">Galería</span>
+                <h2 class="h2 reveal" id="galeria-title">Momentos <em>para recordar</em></h2>
+            </div>
+            <div class="gallery-masonry" id="galleryMasonry">
+                <div class="gallery-item reveal">
+                    <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=900&q=70&fm=webp&fit=crop"
+                        alt="Ambiente del restaurante con luz cálida" width="900" height="600" loading="lazy"
+                        decoding="async">
+                </div>
+                <div class="gallery-item reveal reveal-delay-1">
+                    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&q=70&fm=webp&fit=crop"
+                        alt="Presentación artística de un plato" width="600" height="400" loading="lazy"
+                        decoding="async">
+                </div>
+                <div class="gallery-item reveal reveal-delay-2">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=70&fm=webp&fit=crop"
+                        alt="Copa de vino tinto con decoración de mesa" width="600" height="400" loading="lazy"
+                        decoding="async">
+                </div>
+                <div class="gallery-item reveal reveal-delay-1">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=70&fm=webp&fit=crop"
+                        alt="Detalles de la barra del restaurante" width="600" height="400" loading="lazy"
+                        decoding="async">
+                </div>
+                <div class="gallery-item reveal reveal-delay-2">
+                    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&q=70&fm=webp&fit=crop"
+                        alt="Plato gourmet finalizado" width="600" height="400" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== TESTIMONIALS ======== -->
+        <section class="testimonials-section section" aria-labelledby="testimonials-title">
+            <div class="container">
+                <span class="label">Testimonios</span>
+                <h2 class="h2 reveal" id="testimonials-title" style="margin-bottom:3rem">Lo que dicen<br><em>nuestros
+                        comensales</em></h2>
+                <div class="testimonials-track" id="testimonialsTrack" aria-live="polite">
+                    <article class="testimonial">
+                        <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                        <p class="testimonial-text">"Sin duda el mejor restaurante de Rosario. Cada plato es una
+                            experiencia sensorial completa. El risotto de hongos es espectacular."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar" aria-hidden="true">M</div>
+                            <div>
+                                <div class="testimonial-name">María González</div>
+                                <div class="testimonial-role">Cliente frecuente</div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="testimonial">
+                        <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                        <p class="testimonial-text">"Celebramos nuestro aniversario aquí y fue perfecto. El ambiente es
+                            elegante pero acogedor. Una cocina que realmente te emociona."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar" aria-hidden="true">R</div>
+                            <div>
+                                <div class="testimonial-name">Roberto Martínez</div>
+                                <div class="testimonial-role">Ocasión especial</div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="testimonial">
+                        <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                        <p class="testimonial-text">"La relación calidad-precio es excelente. Ingredientes frescos,
+                            presentación impecable y un servicio que hace que uno se sienta especial."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar" aria-hidden="true">L</div>
+                            <div>
+                                <div class="testimonial-name">Laura Fernández</div>
+                                <div class="testimonial-role">Primera visita</div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="testimonial">
+                        <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                        <p class="testimonial-text">"Vine de Buenos Aires solo por comer acá. Valió cada kilómetro. La
+                            pizza artesanal con masa madre es adictiva. Volveré seguro."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar" aria-hidden="true">A</div>
+                            <div>
+                                <div class="testimonial-name">Andrés Pereyra</div>
+                                <div class="testimonial-role">Visitante de BsAs</div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="t-controls" role="group" aria-label="Navegar testimonios">
+                    <button class="t-dot active" data-idx="0" aria-label="Testimonio 1"></button>
+                    <button class="t-dot" data-idx="1" aria-label="Testimonio 2"></button>
+                    <button class="t-dot" data-idx="2" aria-label="Testimonio 3"></button>
+                    <button class="t-dot" data-idx="3" aria-label="Testimonio 4"></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== CONTACT ======== -->
+        <section class="contact-section section" id="contacto" aria-labelledby="contacto-title">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-form-wrap reveal">
+                        <span class="label" style="color:var(--gold);margin-top:0">Reservas</span>
+                        <h2 class="h2" id="contacto-title" style="color:var(--cream);margin-bottom:2rem">Reservá
+                            tu<br><em style="color:var(--gold)">experiencia</em></h2>
+                        <form id="reserveForm" novalidate>
+                            <div class="form-row">
+                                <div class="form-field">
+                                    <label for="fname" class="form-label">Nombre *</label>
+                                    <input type="text" id="fname" name="fname" class="form-input" placeholder="Juan"
+                                        required autocomplete="given-name">
+                                </div>
+                                <div class="form-field">
+                                    <label for="lname" class="form-label">Apellido *</label>
+                                    <input type="text" id="lname" name="lname" class="form-input" placeholder="Pérez"
+                                        required autocomplete="family-name">
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" id="email" name="email" class="form-input"
+                                    placeholder="ejemplo@mail.com" required autocomplete="email">
+                            </div>
+                            <div class="form-field">
+                                <label for="phone" class="form-label">Teléfono *</label>
+                                <input type="tel" id="phone" name="phone" class="form-input"
+                                    placeholder="+54 341 123-4567" required autocomplete="tel">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-field">
+                                    <label for="date" class="form-label">Fecha *</label>
+                                    <input type="date" id="date" name="date" class="form-input" required>
+                                </div>
+                                <div class="form-field">
+                                    <label for="guests" class="form-label">Personas *</label>
+                                    <input type="number" id="guests" name="guests" class="form-input" min="1" max="20"
+                                        placeholder="2" required>
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <label for="msg" class="form-label">Comentarios</label>
+                                <textarea id="msg" name="msg" class="form-textarea"
+                                    placeholder="Ocasión especial, alergias, preferencias…"></textarea>
+                            </div>
+                            <button type="submit" class="form-submit" aria-label="Confirmar reserva de mesa">Confirmar
+                                Reserva</button>
+                        </form>
+                    </div>
+
+                    <div class="contact-info reveal reveal-delay-2">
+                        <span class="label">Encontranos</span>
+                        <h2 class="h2">Visitanos en<br><em>Rosario</em></h2>
+                        <p class="contact-info-body">Estamos en el corazón del microcentro. Fácil acceso en transporte
+                            público y estacionamiento cercano.</p>
+                        <div class="info-blocks">
+                            <div class="info-block">
+                                <div class="info-icon" aria-hidden="true">📍</div>
+                                <div>
+                                    <div class="info-block-title">Dirección</div>
+                                    <p class="info-block-text">Av. Pellegrini 1250<br>Rosario, Santa Fe</p>
+                                </div>
+                            </div>
+                            <div class="info-block">
+                                <div class="info-icon" aria-hidden="true">⏰</div>
+                                <div>
+                                    <div class="info-block-title">Horarios</div>
+                                    <p class="info-block-text">Martes a Domingo<br>Mediodía: 12:00 – 15:00<br>Noche:
+                                        20:00 – 00:00</p>
+                                </div>
+                            </div>
+                            <div class="info-block">
+                                <div class="info-icon" aria-hidden="true">📞</div>
+                                <div>
+                                    <div class="info-block-title">Contacto</div>
+                                    <p class="info-block-text">
+                                        <a href="tel:+543411234567" style="color:inherit;text-decoration:none">+54 341
+                                            123-4567</a><br>
+                                        <a href="mailto:reservas@saborautentico.com"
+                                            style="color:inherit;text-decoration:none">reservas@saborautentico.com</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="map-embed">
+                            <iframe title="Ubicación de Sabor Auténtico en Rosario"
+                                src="https://www.openstreetmap.org/export/embed.html?bbox=-60.6550,-32.9490,-60.6350,-32.9350&layer=mapnik&marker=-32.9420,-60.6448"
+                                loading="lazy" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo">Sabor Auténtico</div>
-            <p style="color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto;">
-                Cocina de autor en el corazón de Rosario. Una experiencia gastronómica única.
-            </p>
-
-            <div class="social-links">
-                <a href="#">📘</a>
-                <a href="#">📷</a>
-                <a href="#">🐦</a>
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <a href="#inicio" class="footer-logo">Sabor Auténtico</a>
+                <p class="footer-tagline">Cocina de autor en el corazón de Rosario. Una experiencia gastronómica única
+                    desde 2010.</p>
+                <div class="social-row">
+                    <a href="#" class="social-link" aria-label="Facebook">f</a>
+                    <a href="#" class="social-link" aria-label="Instagram">ig</a>
+                    <a href="#" class="social-link" aria-label="TripAdvisor">ta</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3 class="footer-col-title">Navegación</h3>
+                <ul>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#menu">Menú</a></li>
+                    <li><a href="#galeria">Galería</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 class="footer-col-title">Horarios</h3>
+                <ul>
+                    <li><a href="#contacto">Mar – Dom</a></li>
+                    <li><a href="#contacto">12:00 – 15:00</a></li>
+                    <li><a href="#contacto">20:00 – 00:00</a></li>
+                    <li><a href="#contacto">Lunes cerrado</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 class="footer-col-title">Legal</h3>
+                <ul>
+                    <li><a href="#">Privacidad</a></li>
+                    <li><a href="#">Términos</a></li>
+                    <li><a href="#">Accesibilidad</a></li>
+                </ul>
             </div>
         </div>
-
-        <div class="copyright">
-            <p>&copy; 2025 Sabor Auténtico. Todos los derechos reservados.</p>
+        <div class="footer-bottom">
+            <p>© 2026 Sabor Auténtico. Todos los derechos reservados.</p>
+            <p>Hecho con ❤️ Argentina por <a href="https://binadevs.com" target="_blank">BinaDevs</a></p>
         </div>
     </footer>
 
-    <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/5493411234567?text=Hola! Quiero hacer una reserva" class="whatsapp-float">
-        📱
+    <!-- WhatsApp -->
+    <a href="https://wa.me/5493411234567?text=Hola!%20Quiero%20hacer%20una%20reserva" class="wa-btn"
+        aria-label="Contactar por WhatsApp" target="_blank" rel="noopener noreferrer">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg>
     </a>
 
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Vista de imagen ampliada">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar imagen">✕</button>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        ✓ ¡Reserva recibida! Te contactaremos pronto.
+    </div>
+
     <script>
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+
+        const menuItems = [
+            {
+                cat: 'principal', name: 'Pizza Margherita Artesanal',
+                desc: 'Masa madre fermentada 48hs, mozzarella di bufala, tomate San Marzano, albahaca fresca',
+                price: '$8.500',
+                img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=700&q=65&fm=webp&fit=crop',
+                imgAlt: 'Pizza Margherita artesanal con ingredientes frescos'
+            },
+            {
+                cat: 'entrada', name: 'Ensalada César Premium',
+                desc: 'Lechuga romana, pollo grillado, parmesano, crutones caseros, aderezo César',
+                price: '$7.200',
+                img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&q=65&fm=webp&fit=crop',
+                imgAlt: 'Ensalada César Premium'
+            },
+            {
+                cat: 'principal', name: 'Risotto de Hongos',
+                desc: 'Arroz carnaroli, mix de hongos silvestres, parmesano reggiano, trufa negra',
+                price: '$9.800',
+                img: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=700&q=65&fm=webp&fit=crop',
+                imgAlt: 'Risotto de hongos con trufa negra'
+            },
+            {
+                cat: 'entrada', name: 'Sopa del Día',
+                desc: 'Preparación diaria con ingredientes de estación, pan casero, hierbas frescas',
+                price: '$4.500',
+                img: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=700&q=65&fm=webp&fit=crop',
+                imgAlt: 'Sopa del día con ingredientes de estación'
+            },
+            {
+                cat: 'postre', name: 'Pancakes con Frutos Rojos',
+                desc: 'Stack de 3 pancakes esponjosos, frutos rojos frescos, miel de maple, crema batida',
+                price: '$6.800',
+                img: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=700&q=65&fm=webp&fit=crop',
+                imgAlt: 'Pancakes con frutos rojos y crema'
+            },
+            {
+                cat: 'postre', name: 'Brownie con Helado',
+                desc: 'Brownie de chocolate belga, helado de vainilla artesanal, salsa de caramelo',
+                price: '$5.200',
+                img: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=700&q=65&fm=webp&fit=crop',
+                imgAlt: 'Brownie con helado de vainilla'
+            },
+        ];
+
+        function renderMenu(cat) {
+            const grid = document.getElementById('menuGrid');
+            const items = cat === 'all' ? menuItems : menuItems.filter(i => i.cat === cat);
+            grid.innerHTML = items.map((item, i) => `
+        <article class="menu-card reveal ${i > 0 ? 'reveal-delay-' + Math.min(i, 4) : ''}">
+          <div class="menu-card-img-wrap">
+            <img class="menu-card-img" src="${item.img}" alt="${item.imgAlt}" width="700" height="525" loading="lazy" decoding="async">
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-cat">${item.cat.charAt(0).toUpperCase() + item.cat.slice(1)}</div>
+            <h3 class="menu-card-name">${item.name}</h3>
+            <p class="menu-card-desc">${item.desc}</p>
+            <div class="menu-card-footer">
+              <span class="menu-card-price">${item.price}</span>
+            </div>
+          </div>
+        </article>
+      `).join('');
+            // re-observe new elements
+            document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+        }
+
+
+        document.querySelectorAll('.menu-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.menu-tab').forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+                renderMenu(tab.dataset.cat);
+            });
+        });
+
+
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 60);
+        }, { passive: true });
+
+
+        const burger = document.getElementById('navBurger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileClose = document.getElementById('mobileClose');
+
+        function openMenu() {
+            mobileMenu.classList.add('open');
+            mobileMenu.setAttribute('aria-hidden', 'false');
+            burger.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMenu() {
+            mobileMenu.classList.remove('open');
+            mobileMenu.setAttribute('aria-hidden', 'true');
+            burger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        burger.addEventListener('click', openMenu);
+        mobileClose.addEventListener('click', closeMenu);
+        document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenu));
+
+
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const target = document.querySelector(a.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // Form submission
-        document.querySelector('.contact-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('¡Gracias por tu reserva! Te contactaremos pronto.');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src.replace('w=600', 'w=1400').replace('w=900', 'w=1400');
+                lightboxImg.alt = img.alt;
+                lightbox.classList.add('open');
+                lightbox.focus();
+            });
         });
+        lightboxClose.addEventListener('click', () => lightbox.classList.remove('open'));
+        lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
+
+
+        const track = document.getElementById('testimonialsTrack');
+        const dots = document.querySelectorAll('.t-dot');
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const idx = parseInt(dot.dataset.idx);
+                const card = track.querySelectorAll('.testimonial')[idx];
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                dots.forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+            });
+        });
+        // Auto-update dot on scroll
+        track.addEventListener('scroll', () => {
+            const scrollLeft = track.scrollLeft;
+            const cardWidth = track.querySelector('.testimonial').offsetWidth + 32;
+            const idx = Math.round(scrollLeft / cardWidth);
+            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        }, { passive: true });
+
+
+        document.getElementById('reserveForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            e.target.reset();
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        });
+
+
+        const cursor = document.getElementById('cursor');
+        const cursorRing = document.getElementById('cursorRing');
+        let mouseX = 0, mouseY = 0;
+        let ringX = 0, ringY = 0;
+
+        // Only show on non-touch devices
+        if (window.matchMedia('(pointer: fine)').matches) {
+            document.addEventListener('mousemove', e => {
+                mouseX = e.clientX; mouseY = e.clientY;
+                cursor.style.transform = `translate3d(${mouseX - 4}px, ${mouseY - 4}px, 0)`;
+            });
+            // Smooth ring follow
+            (function animateRing() {
+                ringX += (mouseX - ringX) * 0.12;
+                ringY += (mouseY - ringY) * 0.12;
+                cursorRing.style.transform = `translate3d(${ringX - 18}px, ${ringY - 18}px, 0)`;
+                requestAnimationFrame(animateRing);
+            })();
+
+            document.querySelectorAll('a, button, .menu-card, .gallery-item').forEach(el => {
+                el.addEventListener('mouseenter', () => { cursor.classList.add('active'); cursorRing.classList.add('active'); });
+                el.addEventListener('mouseleave', () => { cursor.classList.remove('active'); cursorRing.classList.remove('active'); });
+            });
+        }
+
+
+        renderMenu('all');
+
+
+        const dateInput = document.getElementById('date');
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.min = today;
+        }
     </script>
 </body>
 
