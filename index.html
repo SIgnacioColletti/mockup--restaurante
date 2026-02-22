@@ -86,9 +86,7 @@
         }
 
         /* Ensure text visible before webfonts */
-        @font-face {
-            font-display: swap;
-        }
+
 
         body {
             font-family: var(--ff-body);
@@ -105,41 +103,6 @@
         }
 
 
-        .cursor {
-            width: 8px;
-            height: 8px;
-            background: var(--amber);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: opacity 0.3s;
-            mix-blend-mode: multiply;
-            will-change: transform;
-        }
-
-        .cursor-ring {
-            width: 36px;
-            height: 36px;
-            border: 1px solid var(--amber);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transition: width 0.3s, height 0.3s, opacity 0.3s;
-            opacity: 0.5;
-            will-change: transform;
-        }
-
-        .cursor.active {
-            transform: scale(3);
-        }
-
-        .cursor-ring.active {
-            width: 60px;
-            height: 60px;
-            opacity: 0.2;
-        }
 
 
         .nav {
@@ -1537,7 +1500,6 @@
 
             .nav,
             .wa-btn,
-            .cursor,
             .cursor-ring {
                 display: none;
             }
@@ -1558,10 +1520,6 @@
 <body>
     <!-- Skip Navigation (accessibility) -->
     <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
-
-    <!-- Custom Cursor (desktop only) -->
-    <div class="cursor" id="cursor" aria-hidden="true"></div>
-    <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
     <!-- Navigation -->
     <header>
