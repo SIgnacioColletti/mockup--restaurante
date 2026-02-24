@@ -238,6 +238,10 @@
             text-decoration: none;
             letter-spacing: 0.05em;
             transition: color 0.3s;
+            /* Área táctil y tap rápido en iOS */
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            padding: 0.5rem 1rem;
         }
 
         .mobile-menu a:hover {
@@ -253,6 +257,17 @@
             color: var(--fog);
             font-size: 2rem;
             cursor: pointer;
+            z-index: 10;
+            /* Área táctil mínima recomendada para mobile (44x44px) */
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            /* Evitar que el tap quede bloqueado por otros elementos */
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         .hero {
@@ -1997,18 +2012,33 @@
             mobileMenu.classList.add('open');
             mobileMenu.setAttribute('aria-hidden', 'false');
             burger.setAttribute('aria-expanded', 'true');
+            // Bloquear scroll en iOS también
             document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
         }
         function closeMenu() {
             mobileMenu.classList.remove('open');
             mobileMenu.setAttribute('aria-hidden', 'true');
             burger.setAttribute('aria-expanded', 'false');
+            // Restaurar scroll (incluyendo iOS)
             document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
         }
 
         burger.addEventListener('click', openMenu);
         mobileClose.addEventListener('click', closeMenu);
-        document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenu));
+        // Cerrar con Escape en mobile también
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                closeMenu();
+                lightbox.classList.remove('open');
+            }
+        });
+        document.querySelectorAll('.mobile-link').forEach(l => {
+            l.addEventListener('click', () => {
+                closeMenu();
+            });
+        });
 
         /* ── SMOOTH SCROLL ───────────────────────────────────────────────────── */
         document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -2048,7 +2078,7 @@
         });
         lightboxClose.addEventListener('click', () => lightbox.classList.remove('open'));
         lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('open'); });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
+        // El listener de Escape está unificado arriba junto con closeMenu()
 
         /* ── TESTIMONIALS DOTS ───────────────────────────────────────────────── */
         const track = document.getElementById('testimonialsTrack');
@@ -2092,7 +2122,7 @@
         renderMenu('all');
     </script>
 
-    <!-- Animación de entrada para las cards del menú (independiente del scroll) -->
+
     <style>
         @keyframes menuFadeIn {
             from {
