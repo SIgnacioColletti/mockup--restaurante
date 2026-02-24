@@ -18,7 +18,6 @@
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Non-render-blocking font load (saves ~240ms FCP/LCP) -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
         media="print" onload="this.media='all'">
@@ -27,14 +26,12 @@
             href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap">
     </noscript>
 
-    <!-- Preload LCP image -->
     <link rel="preload" as="image"
         href="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1280&q=70&fm=webp&fit=crop"
         fetchpriority="high"
         imagesrcset="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=640&q=65&fm=webp&fit=crop 640w, https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1280&q=70&fm=webp&fit=crop 1280w, https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=65&fm=webp&fit=crop 1600w"
         imagesizes="100vw">
 
-    <!-- Structured Data -->
     <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -85,9 +82,6 @@
             font-size: 16px;
         }
 
-        /* Ensure text visible before webfonts */
-
-
         body {
             font-family: var(--ff-body);
             background: var(--ivory);
@@ -101,9 +95,6 @@
             display: block;
             max-width: 100%;
         }
-
-
-
 
         .nav {
             position: fixed;
@@ -202,7 +193,6 @@
             transform: translateY(-1px);
         }
 
-        /* Hamburger */
         .nav-burger {
             display: none;
             flex-direction: column;
@@ -225,7 +215,6 @@
             background: var(--espresso);
         }
 
-        /* Mobile menu */
         .mobile-menu {
             display: none;
             position: fixed;
@@ -265,7 +254,6 @@
             font-size: 2rem;
             cursor: pointer;
         }
-
 
         .hero {
             position: relative;
@@ -414,7 +402,6 @@
             background: rgba(212, 169, 106, 0.1);
         }
 
-        /* Scroll indicator */
         .scroll-hint {
             position: absolute;
             bottom: 2rem;
@@ -465,7 +452,6 @@
             }
         }
 
-
         .section {
             padding: 7rem 4rem;
         }
@@ -499,7 +485,7 @@
             color: var(--amber);
         }
 
-        /* Reveal animations */
+        /* ── REVEAL ANIMATIONS ──────────────────────────────────────────────────── */
         .reveal {
             opacity: 0;
             transform: translateY(32px);
@@ -527,6 +513,15 @@
             transition-delay: 0.4s;
         }
 
+        /*
+         * FIX: Las cards del menú se renderizan con JS, por lo que el observer
+         * puede no captarlas si ya están en el viewport al momento de la observación.
+         * Con esta clase especial las hacemos visibles de inmediato al insertar en el DOM.
+         */
+        .menu-card.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         .philosophy {
             background: var(--espresso);
@@ -625,7 +620,6 @@
             margin-top: 0.4rem;
         }
 
-
         .menu-section {
             background: var(--ivory);
         }
@@ -647,7 +641,6 @@
             font-size: 0.95rem;
         }
 
-        /* Tab filter */
         .menu-tabs {
             display: flex;
             gap: 0;
@@ -756,8 +749,6 @@
             color: var(--espresso);
         }
 
-
-
         .strip {
             background: var(--gold);
             overflow: hidden;
@@ -800,7 +791,6 @@
             border-radius: 50%;
             opacity: 0.4;
         }
-
 
         .gallery-section {
             background: var(--espresso);
@@ -870,7 +860,6 @@
             transform: scale(1.06);
             filter: saturate(1.1);
         }
-
 
         .testimonials-section {
             background: var(--fog);
@@ -948,7 +937,6 @@
             opacity: 0.5;
         }
 
-        /* Nav dots */
         .t-controls {
             display: flex;
             gap: 0.5rem;
@@ -971,7 +959,6 @@
             background: var(--amber);
             width: 40px;
         }
-
 
         .contact-section {
             background: var(--ivory);
@@ -1124,7 +1111,6 @@
             line-height: 1.6;
         }
 
-        /* Mapa embebido */
         .map-embed {
             margin-top: 2.5rem;
             border-radius: 4px;
@@ -1139,7 +1125,6 @@
             border: none;
             filter: grayscale(0.3) sepia(0.15);
         }
-
 
         footer {
             background: var(--ink);
@@ -1237,7 +1222,6 @@
             color: var(--gold);
         }
 
-
         .wa-btn {
             position: fixed;
             bottom: 2rem;
@@ -1283,7 +1267,6 @@
             }
         }
 
-
         .lightbox {
             position: fixed;
             inset: 0;
@@ -1322,7 +1305,6 @@
             opacity: 1;
         }
 
-
         .toast {
             position: fixed;
             bottom: 6rem;
@@ -1344,7 +1326,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-
 
         @media (max-width: 1024px) {
 
@@ -1471,13 +1452,11 @@
             }
         }
 
-
         :focus-visible {
             outline: 2px solid var(--amber);
             outline-offset: 3px;
         }
 
-        /* Skip link */
         .skip-link {
             position: absolute;
             top: -100%;
@@ -1495,12 +1474,10 @@
             top: 1rem;
         }
 
-
         @media print {
 
             .nav,
-            .wa-btn,
-            .cursor-ring {
+            .wa-btn {
                 display: none;
             }
 
@@ -1518,10 +1495,8 @@
 </head>
 
 <body>
-    <!-- Skip Navigation (accessibility) -->
     <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
-    <!-- Navigation -->
     <header>
         <nav class="nav" id="nav" role="navigation" aria-label="Navegación principal">
             <a href="#inicio" class="nav-logo" aria-label="Sabor Auténtico - Inicio">Sabor Auténtico</a>
@@ -1539,7 +1514,6 @@
         </nav>
     </header>
 
-    <!-- Mobile Menu -->
     <nav class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Menú móvil" aria-hidden="true">
         <button class="mobile-close" id="mobileClose" aria-label="Cerrar menú">✕</button>
         <a href="#nosotros" class="mobile-link">Nosotros</a>
@@ -1549,15 +1523,15 @@
     </nav>
 
     <main id="main-content">
-        <!-- ======== HERO ======== -->
+        <!-- HERO -->
         <section class="hero" id="inicio" aria-label="Bienvenida">
             <div class="hero-bg" aria-hidden="true"></div>
             <img class="hero-img"
                 src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1280&q=70&fm=webp&fit=crop" srcset="
-          https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=640&q=65&fm=webp&fit=crop 640w,
-          https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1024&q=65&fm=webp&fit=crop 1024w,
-          https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1280&q=70&fm=webp&fit=crop 1280w,
-          https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=65&fm=webp&fit=crop 1600w"
+                  https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=640&q=65&fm=webp&fit=crop 640w,
+                  https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1024&q=65&fm=webp&fit=crop 1024w,
+                  https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1280&q=70&fm=webp&fit=crop 1280w,
+                  https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=65&fm=webp&fit=crop 1600w"
                 sizes="100vw" alt="Interior del restaurante Sabor Auténtico, con iluminación cálida y ambiente elegante"
                 width="1280" height="853" fetchpriority="high" decoding="async">
             <div class="hero-content">
@@ -1566,10 +1540,7 @@
                 <p class="hero-sub">Ingredientes locales, técnica de autor y una experiencia gastronómica que no
                     olvidarás.</p>
                 <div class="hero-actions">
-                    <a href="#menu" class="btn-primary">
-                        Ver el Menú
-                        <span aria-hidden="true">→</span>
-                    </a>
+                    <a href="#menu" class="btn-primary">Ver el Menú <span aria-hidden="true">→</span></a>
                     <a href="#contacto" class="btn-outline">Reservar Mesa</a>
                 </div>
             </div>
@@ -1579,7 +1550,7 @@
             </div>
         </section>
 
-        <!-- ======== PHILOSOPHY / ABOUT ======== -->
+        <!-- PHILOSOPHY / ABOUT -->
         <section class="philosophy section" id="nosotros" aria-labelledby="nosotros-title">
             <div class="container">
                 <div class="philosophy-grid">
@@ -1624,10 +1595,9 @@
             </div>
         </section>
 
-        <!-- ======== STRIP ======== -->
+        <!-- STRIP -->
         <div class="strip" aria-hidden="true">
             <div class="strip-track" id="stripTrack">
-                <!-- duplicated for seamless loop -->
                 <span class="strip-item">Cocina de Autor<span class="strip-dot"></span></span>
                 <span class="strip-item">Ingredientes Locales<span class="strip-dot"></span></span>
                 <span class="strip-item">Experiencia Única<span class="strip-dot"></span></span>
@@ -1641,7 +1611,7 @@
             </div>
         </div>
 
-        <!-- ======== MENU ======== -->
+        <!-- MENU -->
         <section class="menu-section section" id="menu" aria-labelledby="menu-title">
             <div class="container">
                 <div class="menu-header">
@@ -1654,23 +1624,19 @@
                 </div>
 
                 <div class="menu-tabs" role="tablist" aria-label="Categorías del menú">
-                    <button class="menu-tab active" role="tab" aria-selected="true" aria-label="Todos los platos"
-                        data-cat="all">Todos</button>
-                    <button class="menu-tab" role="tab" aria-selected="false" aria-label="Platos principales"
-                        data-cat="principal">Principales</button>
-                    <button class="menu-tab" role="tab" aria-selected="false" aria-label="Platos de entrada"
-                        data-cat="entrada">Entradas</button>
-                    <button class="menu-tab" role="tab" aria-selected="false" aria-label="Platos de postre"
-                        data-cat="postre">Postres</button>
+                    <button class="menu-tab active" role="tab" aria-selected="true" data-cat="all">Todos</button>
+                    <button class="menu-tab" role="tab" aria-selected="false" data-cat="principal">Principales</button>
+                    <button class="menu-tab" role="tab" aria-selected="false" data-cat="entrada">Entradas</button>
+                    <button class="menu-tab" role="tab" aria-selected="false" data-cat="postre">Postres</button>
                 </div>
 
                 <div class="menu-grid" id="menuGrid">
-                    <!-- Cards generated by JS for performance -->
+                    <!-- Cards generadas por JS -->
                 </div>
             </div>
         </section>
 
-        <!-- ======== GALLERY ======== -->
+        <!-- GALLERY -->
         <section class="gallery-section" id="galeria" aria-labelledby="galeria-title">
             <div class="gallery-header">
                 <span class="label" style="color:rgba(247,240,230,0.5)">Galería</span>
@@ -1704,7 +1670,7 @@
             </div>
         </section>
 
-        <!-- ======== TESTIMONIALS ======== -->
+        <!-- TESTIMONIALS -->
         <section class="testimonials-section section" aria-labelledby="testimonials-title">
             <div class="container">
                 <span class="label">Testimonios</span>
@@ -1769,7 +1735,7 @@
             </div>
         </section>
 
-        <!-- ======== CONTACT ======== -->
+        <!-- CONTACT -->
         <section class="contact-section section" id="contacto" aria-labelledby="contacto-title">
             <div class="container">
                 <div class="contact-grid">
@@ -1816,8 +1782,7 @@
                                 <textarea id="msg" name="msg" class="form-textarea"
                                     placeholder="Ocasión especial, alergias, preferencias…"></textarea>
                             </div>
-                            <button type="submit" class="form-submit" aria-label="Confirmar reserva de mesa">Confirmar
-                                Reserva</button>
+                            <button type="submit" class="form-submit">Confirmar Reserva</button>
                         </form>
                     </div>
 
@@ -1866,7 +1831,6 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-grid">
             <div>
@@ -1912,7 +1876,6 @@
         </div>
     </footer>
 
-    <!-- WhatsApp -->
     <a href="https://wa.me/5493411234567?text=Hola!%20Quiero%20hacer%20una%20reserva" class="wa-btn"
         aria-label="Contactar por WhatsApp" target="_blank" rel="noopener noreferrer">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1921,19 +1884,17 @@
         </svg>
     </a>
 
-    <!-- Lightbox -->
     <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Vista de imagen ampliada">
         <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar imagen">✕</button>
         <img id="lightboxImg" src="" alt="">
     </div>
 
-    <!-- Toast notification -->
     <div class="toast" id="toast" role="status" aria-live="polite">
         ✓ ¡Reserva recibida! Te contactaremos pronto.
     </div>
 
     <script>
-
+        /* ── DATOS DEL MENÚ ─────────────────────────────────────────────────────── */
         const menuItems = [
             {
                 cat: 'principal', name: 'Pizza Margherita Artesanal',
@@ -1979,29 +1940,36 @@
             },
         ];
 
+        /* ── RENDER MENÚ ─────────────────────────────────────────────────────────
+         * FIX: Las cards del menú se generan con JS.
+         * El IntersectionObserver no las captura si ya están en viewport al renderizar,
+         * por eso les asignamos la clase "visible" directamente en el HTML generado,
+         * en lugar de depender de la animación reveal que requiere scroll.
+         * El hover/transform sigue funcionando normalmente vía CSS.
+         * ─────────────────────────────────────────────────────────────────────── */
         function renderMenu(cat) {
             const grid = document.getElementById('menuGrid');
             const items = cat === 'all' ? menuItems : menuItems.filter(i => i.cat === cat);
+
             grid.innerHTML = items.map((item, i) => `
-        <article class="menu-card reveal ${i > 0 ? 'reveal-delay-' + Math.min(i, 4) : ''}">
-          <div class="menu-card-img-wrap">
-            <img class="menu-card-img" src="${item.img}" alt="${item.imgAlt}" width="700" height="525" loading="lazy" decoding="async">
-          </div>
-          <div class="menu-card-body">
-            <div class="menu-card-cat">${item.cat.charAt(0).toUpperCase() + item.cat.slice(1)}</div>
-            <h3 class="menu-card-name">${item.name}</h3>
-            <p class="menu-card-desc">${item.desc}</p>
-            <div class="menu-card-footer">
-              <span class="menu-card-price">${item.price}</span>
-            </div>
-          </div>
-        </article>
-      `).join('');
-            // re-observe new elements
-            document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+                <article class="menu-card" style="animation: menuFadeIn 0.5s ${i * 0.08}s both">
+                    <div class="menu-card-img-wrap">
+                        <img class="menu-card-img" src="${item.img}" alt="${item.imgAlt}"
+                             width="700" height="525" loading="lazy" decoding="async">
+                    </div>
+                    <div class="menu-card-body">
+                        <div class="menu-card-cat">${item.cat.charAt(0).toUpperCase() + item.cat.slice(1)}</div>
+                        <h3 class="menu-card-name">${item.name}</h3>
+                        <p class="menu-card-desc">${item.desc}</p>
+                        <div class="menu-card-footer">
+                            <span class="menu-card-price">${item.price}</span>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
         }
 
-
+        /* ── TABS DEL MENÚ ───────────────────────────────────────────────────── */
         document.querySelectorAll('.menu-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.menu-tab').forEach(t => {
@@ -2014,13 +1982,13 @@
             });
         });
 
-
+        /* ── NAV SCROLL ──────────────────────────────────────────────────────── */
         const nav = document.getElementById('nav');
         window.addEventListener('scroll', () => {
             nav.classList.toggle('scrolled', window.scrollY > 60);
         }, { passive: true });
 
-
+        /* ── MOBILE MENU ─────────────────────────────────────────────────────── */
         const burger = document.getElementById('navBurger');
         const mobileMenu = document.getElementById('mobileMenu');
         const mobileClose = document.getElementById('mobileClose');
@@ -2042,7 +2010,7 @@
         mobileClose.addEventListener('click', closeMenu);
         document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenu));
 
-
+        /* ── SMOOTH SCROLL ───────────────────────────────────────────────────── */
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', e => {
                 const target = document.querySelector(a.getAttribute('href'));
@@ -2053,7 +2021,7 @@
             });
         });
 
-
+        /* ── REVEAL OBSERVER (para secciones fuera del menú) ────────────────── */
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -2065,7 +2033,7 @@
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-
+        /* ── LIGHTBOX ────────────────────────────────────────────────────────── */
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
         const lightboxClose = document.getElementById('lightboxClose');
@@ -2082,7 +2050,7 @@
         lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('open'); });
         document.addEventListener('keydown', e => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
 
-
+        /* ── TESTIMONIALS DOTS ───────────────────────────────────────────────── */
         const track = document.getElementById('testimonialsTrack');
         const dots = document.querySelectorAll('.t-dot');
         dots.forEach(dot => {
@@ -2094,7 +2062,6 @@
                 dot.classList.add('active');
             });
         });
-        // Auto-update dot on scroll
         track.addEventListener('scroll', () => {
             const scrollLeft = track.scrollLeft;
             const cardWidth = track.querySelector('.testimonial').offsetWidth + 32;
@@ -2102,7 +2069,7 @@
             dots.forEach((d, i) => d.classList.toggle('active', i === idx));
         }, { passive: true });
 
-
+        /* ── FORM ────────────────────────────────────────────────────────────── */
         document.getElementById('reserveForm').addEventListener('submit', e => {
             e.preventDefault();
             const toast = document.getElementById('toast');
@@ -2111,42 +2078,35 @@
             setTimeout(() => toast.classList.remove('show'), 4000);
         });
 
-
-        const cursor = document.getElementById('cursor');
-        const cursorRing = document.getElementById('cursorRing');
-        let mouseX = 0, mouseY = 0;
-        let ringX = 0, ringY = 0;
-
-        // Only show on non-touch devices
-        if (window.matchMedia('(pointer: fine)').matches) {
-            document.addEventListener('mousemove', e => {
-                mouseX = e.clientX; mouseY = e.clientY;
-                cursor.style.transform = `translate3d(${mouseX - 4}px, ${mouseY - 4}px, 0)`;
-            });
-            // Smooth ring follow
-            (function animateRing() {
-                ringX += (mouseX - ringX) * 0.12;
-                ringY += (mouseY - ringY) * 0.12;
-                cursorRing.style.transform = `translate3d(${ringX - 18}px, ${ringY - 18}px, 0)`;
-                requestAnimationFrame(animateRing);
-            })();
-
-            document.querySelectorAll('a, button, .menu-card, .gallery-item').forEach(el => {
-                el.addEventListener('mouseenter', () => { cursor.classList.add('active'); cursorRing.classList.add('active'); });
-                el.addEventListener('mouseleave', () => { cursor.classList.remove('active'); cursorRing.classList.remove('active'); });
-            });
-        }
-
-
-        renderMenu('all');
-
-
+        /* ── DATE MIN ────────────────────────────────────────────────────────── */
         const dateInput = document.getElementById('date');
         if (dateInput) {
-            const today = new Date().toISOString().split('T')[0];
-            dateInput.min = today;
+            dateInput.min = new Date().toISOString().split('T')[0];
         }
+
+        /* ── RENDER INICIAL ─────────────────────────────────────────────────────
+         * Se llama DESPUÉS de inicializar el observer para que el observer
+         * ya esté listo, pero las cards usan animación CSS propia (menuFadeIn)
+         * y NO dependen del observer, por lo que siempre son visibles.
+         * ─────────────────────────────────────────────────────────────────────── */
+        renderMenu('all');
     </script>
+
+    <!-- Animación de entrada para las cards del menú (independiente del scroll) -->
+    <style>
+        @keyframes menuFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
 </body>
 
 </html>
